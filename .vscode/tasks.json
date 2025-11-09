@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run: unit tests",
+      "type": "shell",
+      "command": "PYTHONPATH=. python3 scripts/run_unit_tests.py",
+      "group": "test",
+      "presentation": { "echo": true, "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run: registered commands",
+      "type": "shell",
+      "command": "PYTHONPATH=. python3 scripts/run_registered_commands.py",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run: register command",
+      "type": "shell",
+      "command": "python3 scripts/register_command.py",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start: watcher (auto_run_on_change)",
+      "type": "shell",
+      "command": "PYTHONPATH=. python3 scripts/auto_run_on_change.py",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run: analyzer",
+      "type": "shell",
+      "command": "PYTHONPATH=. python3 scripts/run_analyzer.py",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    }
+  ]
+}
