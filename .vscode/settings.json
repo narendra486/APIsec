@@ -1,0 +1,103 @@
+{
+    // VS Code workspace settings for APIsec
+    // Sets PYTHONPATH for the integrated terminal and adds the workspace to Python analysis paths.
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}"
+    ],
+    // Ensure tests and tools launched from the terminal see PYTHONPATH
+    "terminal.integrated.env.osx": {
+        "PYTHONPATH": "${workspaceFolder}"
+    },
+    // Optional: use an .env file if you have additional environment variables
+    "python.envFile": "${workspaceFolder}/.env",
+    // If you use the Python extension testing features, point to pytest or disable
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": false,
+    // Avoid VS Code prompting to choose a default terminal profile by preferring bash
+    "terminal.integrated.defaultProfile.osx": "bash",
+    "terminal.integrated.profiles.osx": {
+        "bash": {
+            "path": "/bin/bash"
+        }
+    },
+    // Custom developer script registry for this workspace. These entries are for editor
+    // convenience (used by our helper scripts / tasks). They don't affect VS Code unless
+    // an extension consumes them, but keeping them here centralizes script metadata.
+    "apises.scripts": [
+        {
+            "name": "run_unit_tests",
+            "command": "PYTHONPATH=. python3 scripts/run_unit_tests.py",
+            "path": "scripts/run_unit_tests.py",
+            "description": "Run the project's lightweight unit/integration test runner",
+            "autoRun": true
+        },
+        {
+            "name": "run_registered_commands",
+            "command": "PYTHONPATH=. python3 scripts/run_registered_commands.py",
+            "path": "scripts/run_registered_commands.py",
+            "description": "Run commands registered into .vscode/commands.json",
+            "autoRun": false
+        },
+        {
+            "name": "register_command",
+            "command": "python3 scripts/register_command.py",
+            "path": "scripts/register_command.py",
+            "description": "Helper to add commands into .vscode/commands.json",
+            "autoRun": false
+        },
+        {
+            "name": "auto_run_on_change",
+            "command": "PYTHONPATH=. python3 scripts/auto_run_on_change.py",
+            "path": "scripts/auto_run_on_change.py",
+            "description": "Watcher to auto-run registered commands on filesystem changes",
+            "autoRun": false
+        },
+        {
+            "name": "run_analyzer",
+            "command": "PYTHONPATH=. python3 scripts/run_analyzer.py",
+            "path": "scripts/run_analyzer.py",
+            "description": "Run the analyzer against example vectors or a target",
+            "autoRun": false
+        }
+    ]
+
+    // Extra convenience commands (use the venv-aware wrapper where appropriate)
+    ,"apises.extraCommands": [
+        {
+            "name": "run_unit_tests_wrapped",
+            "command": "bash ${workspaceFolder}/scripts/run_in_venv.sh ${workspaceFolder}/scripts/run_unit_tests.py",
+            "description": "Run unit tests using project .venv if present (no prompt)",
+            "autoRun": true
+        },
+        {
+            "name": "prepare_venv",
+            "command": "make install",
+            "description": "Create .venv and install project plus dev deps",
+            "autoRun": false
+        },
+        {
+            "name": "prepare_and_test",
+            "command": "bash -lc \"make install && bash ${workspaceFolder}/scripts/run_in_venv.sh ${workspaceFolder}/scripts/run_unit_tests.py\"",
+            "description": "Prepare venv then run unit tests (composite)",
+            "autoRun": false
+        },
+        {
+            "name": "run_registered_commands_wrapped",
+            "command": "bash ${workspaceFolder}/scripts/run_in_venv.sh ${workspaceFolder}/scripts/run_registered_commands.py",
+            "description": "Run the registered commands using venv wrapper",
+            "autoRun": false
+        },
+        {
+            "name": "start_watcher_wrapped",
+            "command": "bash ${workspaceFolder}/scripts/run_in_venv.sh ${workspaceFolder}/scripts/auto_run_on_change.py",
+            "description": "Start the auto-run watcher using venv wrapper",
+            "autoRun": false
+        },
+        {
+            "name": "run_analyzer_wrapped",
+            "command": "bash ${workspaceFolder}/scripts/run_in_venv.sh ${workspaceFolder}/scripts/run_analyzer.py",
+            "description": "Run analyzer using venv wrapper",
+            "autoRun": false
+        }
+    ]
+}
