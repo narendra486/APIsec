@@ -3,4 +3,5 @@
 
 class ReportGenerator:
     """Generates security reports"""
+
     pass

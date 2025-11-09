@@ -6,12 +6,13 @@ Comprehensive security testing framework types using Pydantic
 from datetime import datetime
 from enum import Enum
 from typing import Any, Literal, Optional
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 
 
 # ============================================================================
 # ENUMS
 # ============================================================================
+
 
 class PositionType(str, Enum):
     PATH = "path"
@@ -198,6 +199,8 @@ class VulnerabilityType(str, Enum):
     EL_INJECTION = "el-injection"
     CACHE_POISONING = "cache-poisoning"
     HPP = "hpp"
+    SOFTWARE_SUPPLY_CHAIN_FAILURES = "software-supply-chain-failures"
+    MISHANDLING_OF_EXCEPTIONAL_CONDITIONS = "mishandling-of-exceptional-conditions"
 
 
 class EncodingType(str, Enum):
@@ -249,6 +252,7 @@ class DescriptorType(str, Enum):
 # BASE MODELS
 # ============================================================================
 
+
 class ValidationConstraint(BaseModel):
     pattern: Optional[str] = None
     min_length: Optional[int] = None
@@ -261,6 +265,7 @@ class ValidationConstraint(BaseModel):
 
 class Position(BaseModel):
     """Represents an input position in an API request"""
+
     id: str
     endpoint: str
     method: str
@@ -278,6 +283,7 @@ class Position(BaseModel):
 # ============================================================================
 # AUTH MODELS
 # ============================================================================
+
 
 class AuthEndpoints(BaseModel):
     authorize: Optional[str] = None
@@ -318,6 +324,7 @@ class JWTClaims(BaseModel):
 # VULNERABILITY TEST MODELS
 # ============================================================================
 
+
 class PayloadTemplate(BaseModel):
     id: str
     vulnerability_type: VulnerabilityType
@@ -336,8 +343,10 @@ class PayloadTemplate(BaseModel):
 # TEST VECTOR MODELS (NEW - For v2.0.0)
 # ============================================================================
 
+
 class TestVectorPosition(BaseModel):
     """Position in request where payload should be injected"""
+
     type: PositionType
     name: str
     value_prefix: Optional[str] = None
@@ -346,6 +355,7 @@ class TestVectorPosition(BaseModel):
 
 class TestVectorPayload(BaseModel):
     """Payload template with variants"""
+
     base: str
     variants: list[str] = Field(default_factory=list)
     encoding: Optional[str] = None
@@ -353,6 +363,7 @@ class TestVectorPayload(BaseModel):
 
 class TestVectorEvidence(BaseModel):
     """Expected evidence for vulnerability detection"""
+
     indicators: list[str] = Field(default_factory=list)
     false_positive_indicators: Optional[list[str]] = None
     confidence: ConfidenceLevel = ConfidenceLevel.MEDIUM
@@ -360,6 +371,7 @@ class TestVectorEvidence(BaseModel):
 
 class TestVector(BaseModel):
     """Complete test vector specification"""
+
     id: str
     name: str
     description: str
@@ -392,6 +404,7 @@ class TestCase(BaseModel):
 # ============================================================================
 # BEHAVIOR ANALYSIS MODELS
 # ============================================================================
+
 
 class OOBInteraction(BaseModel):
     type: Literal["dns", "http", "https", "smtp", "ftp"]
@@ -452,6 +465,7 @@ class Evidence(BaseModel):
 # FINDING & REMEDIATION MODELS
 # ============================================================================
 
+
 class CodeExample(BaseModel):
     language: str
     description: str
@@ -498,6 +512,7 @@ class Finding(BaseModel):
 # ============================================================================
 # TEST PLAN MODELS
 # ============================================================================
+
 
 class EndpointInfo(BaseModel):
     path: str
@@ -555,6 +570,7 @@ class TestPlan(BaseModel):
 # ADAPTIVE ENGINE MODELS
 # ============================================================================
 
+
 class LearningEntry(BaseModel):
     position: str
     payload: str
@@ -593,6 +609,7 @@ class AdaptiveContext(BaseModel):
 # ============================================================================
 # PAYLOAD UPDATE MODELS
 # ============================================================================
+
 
 class PayloadSource(BaseModel):
     type: Literal["github", "rss", "atom", "curated"]
@@ -642,6 +659,7 @@ class TestRecipe(BaseModel):
 # ============================================================================
 # CONFIGURATION MODELS
 # ============================================================================
+
 
 class OOBListener(BaseModel):
     dns_server: Optional[str] = None
@@ -700,28 +718,28 @@ class OrchestratorConfig(BaseModel):
     destructive_tests: bool = False
     max_concurrency: int = 5
     time_budget_ms: int = 300000
-    
+
     # OOB listener
     oob_listener: Optional[OOBListener] = None
-    
+
     # Rate limiting
     rate_limit: RateLimit = Field(default_factory=RateLimit)
-    
+
     # Scope control
     scope: ScopeConfig = Field(default_factory=ScopeConfig)
-    
+
     # Sensitivity
     sensitivity_level: SensitivityLevel = SensitivityLevel.MEDIUM
-    
+
     # Payload sources
     payload_sources: list[PayloadSource] = Field(default_factory=list)
-    
+
     # Learning
     adaptive: AdaptiveConfig = Field(default_factory=AdaptiveConfig)
-    
+
     # Reporting
     reporting: ReportingConfig = Field(default_factory=ReportingConfig)
-    
+
     # Integrations
     integrations: Optional[Integrations] = None
 
@@ -729,6 +747,7 @@ class OrchestratorConfig(BaseModel):
 # ============================================================================
 # REPORT MODELS
 # ============================================================================
+
 
 class ReportSummary(BaseModel):
     total_tests: int
@@ -763,6 +782,7 @@ class SecurityReport(BaseModel):
 # ============================================================================
 # INGEST MODELS
 # ============================================================================
+
 
 class IngestResult(BaseModel):
     success: bool

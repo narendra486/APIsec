@@ -12,6 +12,7 @@ Total Coverage:
 
 TOTAL: 250+ Comprehensive Security Test Vectors
 """
+
 __version__ = "2.0.0"
 
 # Import registry for easy access
@@ -21,7 +22,7 @@ from .test_vector_registry import (
     get_vectors_by_type,
     get_vectors_by_tag,
     get_all_vectors,
-    print_registry_stats
+    print_registry_stats,
 )
 
 # Import models
@@ -33,24 +34,24 @@ from .models import (
     PayloadTemplate,
     Evidence,
     ConfidenceLevel,
-    SensitivityLevel
+    SensitivityLevel,
 )
 
 __all__ = [
     # Registry functions
-    'get_registry',
-    'get_vector',
-    'get_vectors_by_type',
-    'get_vectors_by_tag',
-    'get_all_vectors',
-    'print_registry_stats',
+    "get_registry",
+    "get_vector",
+    "get_vectors_by_type",
+    "get_vectors_by_tag",
+    "get_all_vectors",
+    "print_registry_stats",
     # Models
-    'TestVector',
-    'VulnerabilityType',
-    'Position',
-    'PositionType',
-    'PayloadTemplate',
-    'Evidence',
-    'ConfidenceLevel',
-    'SensitivityLevel',
+    "TestVector",
+    "VulnerabilityType",
+    "Position",
+    "PositionType",
+    "PayloadTemplate",
+    "Evidence",
+    "ConfidenceLevel",
+    "SensitivityLevel",
 ]

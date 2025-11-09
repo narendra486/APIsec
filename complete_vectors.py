@@ -3,13 +3,13 @@
 Script to complete all remaining test vectors for MCP-Orchestrator v2
 Adds:
 - 13 file upload bypass vectors
-- 7 security header vectors  
+- 7 security header vectors
 - 10 misconfiguration vectors
 Total: 30 additional vectors to reach 229+ total
 """
 
 # File Upload vectors (11 more needed - 2 exist, need 13 more for 15 total)
-FILE_UPLOAD_ADDITIONS = '''
+FILE_UPLOAD_ADDITIONS = """
     TestVector(
         id="file-upload-mime-001",
         name="MIME Type Manipulation",
@@ -282,7 +282,7 @@ FILE_UPLOAD_ADDITIONS = '''
         references=["https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition"],
         tags=["file-upload", "content-disposition", "execution-prevention"]
     ),
-'''
+"""
 
 print("File upload additions created. Apply these to file_upload_bypass.py")
 print(f"Length: {len(FILE_UPLOAD_ADDITIONS)} characters")

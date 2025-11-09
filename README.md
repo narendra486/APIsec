@@ -1,3 +1,12 @@
+# Analyzer usage (snippet)
+
+This project includes a small analyzer tool to run test vectors against login endpoints and collect structured findings.
+
+Quick example (CLI):
+
+```
+python3 scripts/run_analyzer.py --url http://example.local/doLogin --vectors-file vectors.json --concurrency 2
+```
 # MCP-Orchestrator
 
 **Modular, adaptive API & web-application security testing server with behavior analysis**

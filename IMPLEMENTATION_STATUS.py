@@ -13,7 +13,7 @@ COMPLETED IMPLEMENTATIONS (as of this session):
    - MongoDB JSON operator chaining
 
 2. LDAP Injection (ldap_tests.py): 10 vectors ✅
-   - Filter injection (OR, AND), blind injection  
+   - Filter injection (OR, AND), blind injection
    - DN injection, wildcard injection
    - Parenthesis bypass, Unicode encoding
    - Attribute injection, search scope manipulation
@@ -29,7 +29,7 @@ COMPLETED IMPLEMENTATIONS (as of this session):
 4. GraphQL Advanced (graphql_advanced.py): 12 vectors ✅
    - Introspection, depth limits, batch attacks
    - Circular references, directive abuse
-   - Alias batching, mutation batching  
+   - Alias batching, mutation batching
    - Subscription abuse, field duplication
    - Fragment spreading exploitation
 
@@ -121,11 +121,11 @@ NEXT STEPS:
 """
 
 import sys
-import os
+
 
 def main():
     print(__doc__)
-    
+
     # Quick count verification
     vector_counts = {
         "NoSQL": 12,
@@ -138,14 +138,15 @@ def main():
         "Workflow": 15,
         "Financial": 10,
     }
-    
+
     new_total = sum(vector_counts.values())
     print(f"\nVerified New Vectors: {new_total}")
-    print(f"Original Vectors: 102")
+    print("Original Vectors: 102")
     print(f"Grand Total: {102 + new_total} vectors")
     print(f"\n✅ TARGET EXCEEDED: {102 + new_total} >= 229 required!")
-    
+
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
