@@ -1,0 +1,100 @@
+# Example configuration for MCP-Orchestrator
+
+# Scanner mode: safe (non-destructive) | aggressive | custom
+mode: safe
+
+# Allow destructive tests (delete, modify operations)
+destructive_tests: false
+
+# Maximum concurrent HTTP requests
+max_concurrency: 5
+
+# Total time budget in milliseconds
+time_budget_ms: 300000
+
+# Out-of-band listener for SSRF/XXE detection
+oob_listener:
+  dns_server: "your-dns-listener.example.com"
+  http_server: "http://your-http-listener.example.com"
+  callback: "http://your-callback.example.com/oob"
+
+# Rate limiting
+rate_limit:
+  requests_per_second: 10
+  burst_size: 20
+
+# Scope control
+scope:
+  # Allowlist - only test these patterns (supports wildcards)
+  allowlist:
+    - "https://api.example.com/*"
+    - "https://staging-api.example.com/*"
+  
+  # Denylist - never test these patterns
+  denylist:
+    - "*/admin/delete*"
+    - "*/user/remove*"
+    - "*/payment/charge*"
+  
+  # Follow HTTP redirects
+  follow_redirects: true
+  
+  # Respect robots.txt
+  respect_robots_txt: false
+
+# Minimum sensitivity level to test
+sensitivity_level: high  # low | medium | high | critical
+
+# Payload sources for dynamic updates
+payload_sources:
+  - type: github
+    url: "https://github.com/danielmiessler/SecLists"
+    path: "Fuzzing"
+    enabled: true
+  
+  - type: github
+    url: "https://github.com/swisskyrepo/PayloadsAllTheThings"
+    path: ""
+    enabled: true
+  
+  - type: curated
+    url: "https://owasp.org/www-project-web-security-testing-guide/"
+    enabled: true
+
+# Adaptive learning configuration
+adaptive:
+  enabled: true
+  confidence_threshold: 0.7
+  mutation_budget: 50
+  learn_across_targets: false  # Don't share learned payloads across different targets
+
+# Reporting configuration
+reporting:
+  formats:
+    - json
+    - markdown
+    - html
+  output_dir: "./reports"
+  redact_secrets: true
+
+# Integration webhooks and APIs
+integrations:
+  # Slack notifications
+  slack:
+    webhook_url: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+  
+  # Jira issue creation
+  jira:
+    url: "https://your-company.atlassian.net"
+    api_token: "your-jira-api-token"
+    project: "SEC"
+  
+  # GitHub issue creation
+  github:
+    repo: "your-org/security-findings"
+    token: "your-github-token"
+  
+  # SIEM export
+  siem:
+    endpoint: "https://your-siem.example.com/api/events"
+    api_key: "your-siem-api-key"

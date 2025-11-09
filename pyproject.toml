@@ -1,0 +1,54 @@
+[project]
+name = "mcp-orchestrator"
+version = "1.0.0"
+description = "Modular, adaptive API & web-application security testing server with behavior analysis"
+authors = [{name = "MCP-Orchestrator"}]
+requires-python = ">=3.9"
+dependencies = [
+    "mcp>=0.9.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.27.0",
+    "pyyaml>=6.0",
+    "jsonpath-ng>=1.6.0",
+    "lxml>=5.0.0",
+    "pyjwt>=2.8.0",
+    "cryptography>=41.0.0",
+    "graphql-core>=3.2.0",
+    "python-multipart>=0.0.9",
+    "aiofiles>=23.0.0",
+    "jinja2>=3.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "mypy>=1.5.0",
+    "ruff>=0.1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_orchestrator"]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
