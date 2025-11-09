@@ -8,3 +8,17 @@ coverage/
 *.swp
 reports/
 sandbox/
+
+# Python virtual env and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.so
+
+# artifacts and editor configs
+artifacts/
+.vscode/
+!.vscode/commands.json
+!.vscode/tasks.json
+

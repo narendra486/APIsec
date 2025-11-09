@@ -24,21 +24,18 @@ from .models import (
     TargetSpec,
     ScopeConfig,
     TestPlan,
-    Position,
     Finding,
-    SecurityReport,
     SensitivityLevel,
 )
 from .ingest import IngestOrchestrator
-from .discovery import PositionExtractor
-from .test_engine import TestEngine
-from .reporting import ReportGenerator
+from .analyzer import Analyzer
+from .test_vector_registry import get_registry
 
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[logging.StreamHandler(sys.stderr)]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler(sys.stderr)],
 )
 logger = logging.getLogger("mcp-orchestrator")
 
@@ -67,19 +64,16 @@ async def list_tools() -> list[Tool]:
                 "properties": {
                     "content": {
                         "type": "string",
-                        "description": "API descriptor content (JSON/YAML), cURL command, or raw HTTP request"
+                        "description": "API descriptor content (JSON/YAML), cURL command, or raw HTTP request",
                     },
                     "descriptor_type": {
                         "type": "string",
                         "enum": ["openapi", "swagger", "graphql", "har", "curl", "raw", "auto"],
-                        "description": "Descriptor type (use 'auto' for auto-detection)"
+                        "description": "Descriptor type (use 'auto' for auto-detection)",
                     },
-                    "base_url": {
-                        "type": "string",
-                        "description": "Base URL of the API target"
-                    },
+                    "base_url": {"type": "string", "description": "Base URL of the API target"},
                 },
-                "required": ["content", "base_url"]
+                "required": ["content", "base_url"],
             },
         ),
         Tool(
@@ -95,10 +89,10 @@ async def list_tools() -> list[Tool]:
                     "include_endpoints": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "Optional: filter to specific endpoints (paths)"
+                        "description": "Optional: filter to specific endpoints (paths)",
                     }
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -115,28 +109,37 @@ async def list_tools() -> list[Tool]:
                     "max_tests": {
                         "type": "number",
                         "description": "Maximum number of tests to generate (default: 100)",
-                        "default": 100
+                        "default": 100,
                     },
                     "focus_vulnerabilities": {
                         "type": "array",
                         "items": {
                             "type": "string",
                             "enum": [
-                                "sqli", "xss", "xxe", "ssrf", "idor",
-                                "jwt-vuln", "oauth-vuln", "session-vuln",
-                                "authz-bypass", "command-injection", "path-traversal",
-                                "graphql-injection", "graphql-dos"
-                            ]
+                                "sqli",
+                                "xss",
+                                "xxe",
+                                "ssrf",
+                                "idor",
+                                "jwt-vuln",
+                                "oauth-vuln",
+                                "session-vuln",
+                                "authz-bypass",
+                                "command-injection",
+                                "path-traversal",
+                                "graphql-injection",
+                                "graphql-dos",
+                            ],
                         },
-                        "description": "Optional: focus on specific vulnerability types"
+                        "description": "Optional: focus on specific vulnerability types",
                     },
                     "top_n_preview": {
                         "type": "number",
                         "description": "Return top N tests in preview (default: 10)",
-                        "default": 10
-                    }
+                        "default": 10,
+                    },
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -151,31 +154,31 @@ async def list_tools() -> list[Tool]:
                 "properties": {
                     "plan_id": {
                         "type": "string",
-                        "description": "Test plan ID to execute (optional if only one plan exists)"
+                        "description": "Test plan ID to execute (optional if only one plan exists)",
                     },
                     "test_ids": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "Optional: specific test IDs to run (runs all if omitted)"
+                        "description": "Optional: specific test IDs to run (runs all if omitted)",
                     },
                     "mode": {
                         "type": "string",
                         "enum": ["safe", "aggressive", "custom"],
                         "description": "Execution mode (default: safe - non-destructive only)",
-                        "default": "safe"
+                        "default": "safe",
                     },
                     "max_concurrency": {
                         "type": "number",
                         "description": "Max concurrent requests (default: 5)",
-                        "default": 5
+                        "default": 5,
                     },
                     "time_budget_seconds": {
                         "type": "number",
                         "description": "Maximum execution time in seconds (default: 300)",
-                        "default": 300
-                    }
+                        "default": 300,
+                    },
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -190,25 +193,22 @@ async def list_tools() -> list[Tool]:
                 "properties": {
                     "formats": {
                         "type": "array",
-                        "items": {
-                            "type": "string",
-                            "enum": ["json", "markdown", "html", "burp"]
-                        },
+                        "items": {"type": "string", "enum": ["json", "markdown", "html", "burp"]},
                         "description": "Output formats (default: ['json', 'markdown'])",
-                        "default": ["json", "markdown"]
+                        "default": ["json", "markdown"],
                     },
                     "output_dir": {
                         "type": "string",
                         "description": "Output directory path (default: './reports')",
-                        "default": "./reports"
+                        "default": "./reports",
                     },
                     "include_low_confidence": {
                         "type": "boolean",
                         "description": "Include low confidence findings (default: false)",
-                        "default": False
-                    }
+                        "default": False,
+                    },
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -223,41 +223,38 @@ async def list_tools() -> list[Tool]:
                     "mode": {
                         "type": "string",
                         "enum": ["safe", "aggressive", "custom"],
-                        "description": "Scanner mode"
+                        "description": "Scanner mode",
                     },
                     "allowlist": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "URL patterns to allow (supports wildcards)"
+                        "description": "URL patterns to allow (supports wildcards)",
                     },
                     "denylist": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "URL patterns to block (supports wildcards)"
+                        "description": "URL patterns to block (supports wildcards)",
                     },
-                    "max_concurrency": {
-                        "type": "number",
-                        "description": "Max concurrent requests"
-                    },
+                    "max_concurrency": {"type": "number", "description": "Max concurrent requests"},
                     "requests_per_second": {
                         "type": "number",
-                        "description": "Rate limit: requests per second"
+                        "description": "Rate limit: requests per second",
                     },
                     "oob_callback_url": {
                         "type": "string",
-                        "description": "Out-of-band callback URL for SSRF/XXE detection"
+                        "description": "Out-of-band callback URL for SSRF/XXE detection",
                     },
                     "sensitivity_level": {
                         "type": "string",
                         "enum": ["low", "medium", "high", "critical"],
-                        "description": "Minimum sensitivity level to test"
+                        "description": "Minimum sensitivity level to test",
                     },
                     "destructive_tests": {
                         "type": "boolean",
-                        "description": "Allow destructive tests (default: false)"
-                    }
+                        "description": "Allow destructive tests (default: false)",
+                    },
                 },
-                "required": []
+                "required": [],
             },
         ),
         Tool(
@@ -272,46 +269,48 @@ async def list_tools() -> list[Tool]:
                     "sources": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "Source names to update (updates all if omitted)"
+                        "description": "Source names to update (updates all if omitted)",
                     },
                     "force_update": {
                         "type": "boolean",
                         "description": "Force update even if recently fetched",
-                        "default": False
-                    }
+                        "default": False,
+                    },
                 },
-                "required": []
+                "required": [],
             },
         ),
     ]
 
 
 @app.call_tool()
-async def call_tool(name: str, arguments: Any) -> Sequence[TextContent | ImageContent | EmbeddedResource]:
+async def call_tool(
+    name: str, arguments: Any
+) -> Sequence[TextContent | ImageContent | EmbeddedResource]:
     """Handle tool calls"""
     global config, current_test_plan, findings
-    
+
     try:
         if name == "ingest_api":
             content = arguments.get("content", "")
             descriptor_type = arguments.get("descriptor_type", "auto")
             base_url = arguments["base_url"]
-            
+
             # Parse the API descriptor
             if descriptor_type == "auto":
                 descriptor_type = None
-            
+
             result = IngestOrchestrator.ingest(content, descriptor_type)
-            
+
             if result.success:
                 # Store target spec
                 target = TargetSpec(
                     base_url=base_url,
                     descriptor=None,  # Will be populated with APIDescriptor
                     auth_config=None,
-                    scope=ScopeConfig(allowlist=[f"{base_url}/*"])
+                    scope=ScopeConfig(allowlist=[f"{base_url}/*"]),
                 )
-                
+
                 response = {
                     "success": True,
                     "descriptor_type": result.descriptor_type,
@@ -334,32 +333,36 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent | ImageCo
                     ],
                     "warnings": result.warnings,
                 }
-                
-                return [TextContent(
-                    type="text",
-                    text=json.dumps(response, indent=2)
-                )]
+
+                return [TextContent(type="text", text=json.dumps(response, indent=2))]
             else:
-                return [TextContent(
-                    type="text",
-                    text=json.dumps({"success": False, "errors": result.errors}, indent=2)
-                )]
-        
+                return [
+                    TextContent(
+                        type="text",
+                        text=json.dumps({"success": False, "errors": result.errors}, indent=2),
+                    )
+                ]
+
         elif name == "discover_positions":
             # This would extract positions from ingested API
             # For now, return placeholder
-            return [TextContent(
-                type="text",
-                text=json.dumps({
-                    "message": "Position discovery implemented - extracts path/query/header/body positions",
-                    "status": "ready"
-                }, indent=2)
-            )]
-        
+            return [
+                TextContent(
+                    type="text",
+                    text=json.dumps(
+                        {
+                            "message": "Position discovery implemented - extracts path/query/header/body positions",
+                            "status": "ready",
+                        },
+                        indent=2,
+                    ),
+                )
+            ]
+
         elif name == "generate_test_plan":
             max_tests = arguments.get("max_tests", 100)
             top_n = arguments.get("top_n_preview", 10)
-            
+
             response = {
                 "test_plan_id": "plan-001",
                 "total_tests": max_tests,
@@ -374,7 +377,7 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent | ImageCo
                         "test_type": "idor",
                         "payload": "../admin/1",
                         "expected_signal": "Unauthorized access or privilege escalation",
-                        "rationale": "Path parameter on sensitive resource without documented authz"
+                        "rationale": "Path parameter on sensitive resource without documented authz",
                     },
                     {
                         "priority": 2,
@@ -384,20 +387,72 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent | ImageCo
                         "test_type": "jwt-vuln",
                         "payload": "<JWT with alg=none>",
                         "expected_signal": "Accepted token with none algorithm",
-                        "rationale": "JWT auth endpoint - 23 test vectors available"
-                    }
-                ]
+                        "rationale": "JWT auth endpoint - 23 test vectors available",
+                    },
+                ],
             }
-            
-            return [TextContent(
-                type="text",
-                text=json.dumps(response, indent=2)
-            )]
-        
+
+            return [TextContent(type="text", text=json.dumps(response, indent=2))]
+
         elif name == "execute_tests":
             mode = arguments.get("mode", "safe")
             max_concurrency = arguments.get("max_concurrency", 5)
-            
+            # If a target_url/base_url is provided, run the Analyzer against it
+            target = arguments.get("target_url") or arguments.get("base_url")
+            vectors_arg = arguments.get("vectors")
+            skip_hosts = arguments.get("skip_hosts")
+
+            if target:
+                # prepare vector list
+                if vectors_arg and isinstance(vectors_arg, list):
+                    vectors = vectors_arg
+                else:
+                    registry = get_registry()
+                    tvs = registry.get_all_vectors()
+                    vectors = [{"id": v.id, "payload": v.payload.base} for v in tvs]
+
+                analyzer = Analyzer(
+                    target,
+                    proxies=None,
+                    verify=False,
+                    timeout=10,
+                    concurrency=max_concurrency,
+                    skip_hosts=skip_hosts,
+                )
+
+                # perform baseline capture with known failing creds
+                baseline_data = {"uid": "invalid_user", "passw": "invalid", "btnSubmit": "Login"}
+                baseline = analyzer.capture_baseline(baseline_data)
+                if baseline.get("skipped_by_policy"):
+                    return [
+                        TextContent(
+                            type="text", text=json.dumps({"skipped_by_policy": True}, indent=2)
+                        )
+                    ]
+
+                # run analyzer in thread to avoid blocking the event loop
+                import asyncio
+
+                loop = asyncio.get_running_loop()
+                findings = await loop.run_in_executor(None, analyzer.run_all, vectors)
+
+                return [
+                    TextContent(
+                        type="text",
+                        text=json.dumps(
+                            {
+                                "execution_id": "exec-001",
+                                "mode": mode,
+                                "tests_run": len(vectors),
+                                "findings_count": len(findings),
+                                "findings": findings,
+                            },
+                            indent=2,
+                        ),
+                    )
+                ]
+
+            # fallback placeholder response
             response = {
                 "execution_id": "exec-001",
                 "mode": mode,
@@ -412,18 +467,15 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent | ImageCo
                     "vulnerability_tests": "✓ Ready (SQLi/XSS/XXE/GraphQL/IDOR/SSRF)",
                     "behavior_analyzer": "✓ Ready",
                     "adaptive_engine": "✓ Ready",
-                    "reporting": "✓ Ready"
-                }
+                    "reporting": "✓ Ready",
+                },
             }
-            
-            return [TextContent(
-                type="text",
-                text=json.dumps(response, indent=2)
-            )]
-        
+
+            return [TextContent(type="text", text=json.dumps(response, indent=2))]
+
         elif name == "generate_report":
             formats = arguments.get("formats", ["json", "markdown"])
-            
+
             response = {
                 "success": True,
                 "formats": formats,
@@ -436,20 +488,17 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent | ImageCo
                     "CWE mappings",
                     "Severity distribution",
                     "Confidence levels",
-                    "PoC reproduction steps"
-                ]
+                    "PoC reproduction steps",
+                ],
             }
-            
-            return [TextContent(
-                type="text",
-                text=json.dumps(response, indent=2)
-            )]
-        
+
+            return [TextContent(type="text", text=json.dumps(response, indent=2))]
+
         elif name == "configure_scanner":
             # Update global config
             if config is None:
                 config = OrchestratorConfig()
-            
+
             if "mode" in arguments:
                 config.mode = arguments["mode"]
             if "allowlist" in arguments:
@@ -462,16 +511,21 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent | ImageCo
                 config.sensitivity_level = SensitivityLevel(arguments["sensitivity_level"])
             if "destructive_tests" in arguments:
                 config.destructive_tests = arguments["destructive_tests"]
-            
-            return [TextContent(
-                type="text",
-                text=json.dumps({
-                    "success": True,
-                    "config": config.model_dump(),
-                    "message": "Configuration updated successfully"
-                }, indent=2)
-            )]
-        
+
+            return [
+                TextContent(
+                    type="text",
+                    text=json.dumps(
+                        {
+                            "success": True,
+                            "config": config.model_dump(),
+                            "message": "Configuration updated successfully",
+                        },
+                        indent=2,
+                    ),
+                )
+            ]
+
         elif name == "update_payloads":
             response = {
                 "success": True,
@@ -479,43 +533,34 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent | ImageCo
                 "default_sources": [
                     "https://github.com/danielmiessler/SecLists",
                     "https://github.com/swisskyrepo/PayloadsAllTheThings",
-                    "OWASP Testing Guide"
+                    "OWASP Testing Guide",
                 ],
                 "features": [
                     "Sandbox validation before merge",
                     "CVE-to-test-recipe pipeline",
-                    "Version tracking and changelog"
-                ]
+                    "Version tracking and changelog",
+                ],
             }
-            
-            return [TextContent(
-                type="text",
-                text=json.dumps(response, indent=2)
-            )]
-        
+
+            return [TextContent(type="text", text=json.dumps(response, indent=2))]
+
         else:
-            return [TextContent(
-                type="text",
-                text=json.dumps({"error": f"Unknown tool: {name}"}, indent=2)
-            )]
-    
+            return [
+                TextContent(
+                    type="text", text=json.dumps({"error": f"Unknown tool: {name}"}, indent=2)
+                )
+            ]
+
     except Exception as e:
         logger.error(f"Error executing tool {name}: {str(e)}", exc_info=True)
-        return [TextContent(
-            type="text",
-            text=json.dumps({"error": str(e)}, indent=2)
-        )]
+        return [TextContent(type="text", text=json.dumps({"error": str(e)}, indent=2))]
 
 
 async def main():
     """Run the MCP server"""
     logger.info("Starting MCP-Orchestrator server")
     async with stdio_server() as (read_stream, write_stream):
-        await app.run(
-            read_stream,
-            write_stream,
-            app.create_initialization_options()
-        )
+        await app.run(read_stream, write_stream, app.create_initialization_options())
 
 
 if __name__ == "__main__":

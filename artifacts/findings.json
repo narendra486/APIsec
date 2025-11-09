@@ -1,1 +1,521 @@
-[]
+[
+  {
+    "vector_id": "v1",
+    "payload": "' OR '1'='1",
+    "sink": "uid",
+    "request": {
+      "url": "http://example.local/doLogin",
+      "method": "POST",
+      "headers": {},
+      "data": {
+        "uid": "' OR '1'='1",
+        "passw": "",
+        "btnSubmit": "Login"
+      },
+      "json": null
+    },
+    "response": {
+      "status_code": 302,
+      "reason": "",
+      "headers": {
+        "Location": "/bank/main.jsp"
+      },
+      "content_type": "",
+      "declared_length": null,
+      "actual_length": 0,
+      "elapsed_seconds": 4.0531158447265625e-06,
+      "redirect_chain": [
+        "/bank/main.jsp"
+      ],
+      "session_cookies_after": {},
+      "set_cookie_header": null,
+      "final_body": ""
+    },
+    "analysis": {
+      "status_behavior": null,
+      "cookie_delta": {
+        "new": {},
+        "changed": {},
+        "removed": []
+      },
+      "redirect_target": "/bank/main.jsp",
+      "similarity": 0.0,
+      "length_delta": -45,
+      "sql_error_found": false,
+      "sql_error_snippet": null,
+      "reflection_context": null,
+      "encoding_behavior": "raw",
+      "template_delta": 0.0,
+      "time_probe": null,
+      "csrf_behavior": null,
+      "csrf_bypass": false,
+      "content_type_mismatch": false,
+      "jwt_tampering_accepted": false,
+      "jwt_tamper_variants_tested": [],
+      "jwt_tamper_accepted_variant": null,
+      "cache_control_ok": false,
+      "suspicious": true,
+      "severity": "MEDIUM"
+    },
+    "reflection": {},
+    "similarity": 0.0,
+    "success_keywords": [],
+    "final_status": 302,
+    "skipped_by_policy": false
+  },
+  {
+    "vector_id": "v1",
+    "payload": "' OR '1'='1",
+    "sink": "passw",
+    "request": {
+      "url": "http://example.local/doLogin",
+      "method": "POST",
+      "headers": {},
+      "data": {
+        "uid": "",
+        "passw": "' OR '1'='1",
+        "btnSubmit": "Login"
+      },
+      "json": null
+    },
+    "response": {
+      "status_code": 302,
+      "reason": "",
+      "headers": {
+        "Location": "/bank/main.jsp"
+      },
+      "content_type": "",
+      "declared_length": null,
+      "actual_length": 0,
+      "elapsed_seconds": 1.9073486328125e-06,
+      "redirect_chain": [
+        "/bank/main.jsp"
+      ],
+      "session_cookies_after": {},
+      "set_cookie_header": null,
+      "final_body": ""
+    },
+    "analysis": {
+      "status_behavior": null,
+      "cookie_delta": {
+        "new": {},
+        "changed": {},
+        "removed": []
+      },
+      "redirect_target": "/bank/main.jsp",
+      "similarity": 0.0,
+      "length_delta": -45,
+      "sql_error_found": false,
+      "sql_error_snippet": null,
+      "reflection_context": null,
+      "encoding_behavior": "raw",
+      "template_delta": 0.0,
+      "time_probe": null,
+      "csrf_behavior": null,
+      "csrf_bypass": false,
+      "content_type_mismatch": false,
+      "jwt_tampering_accepted": false,
+      "jwt_tamper_variants_tested": [],
+      "jwt_tamper_accepted_variant": null,
+      "cache_control_ok": false,
+      "suspicious": true,
+      "severity": "MEDIUM"
+    },
+    "reflection": {},
+    "similarity": 0.0,
+    "success_keywords": [],
+    "final_status": 302,
+    "skipped_by_policy": false
+  },
+  {
+    "vector_id": "v1",
+    "payload": "' OR '1'='1",
+    "sink": "cookie",
+    "request": {
+      "url": "http://example.local/doLogin",
+      "method": "POST",
+      "headers": {
+        "Cookie": "injection=' OR '1'='1"
+      },
+      "data": {
+        "uid": "",
+        "passw": "",
+        "btnSubmit": "Login"
+      },
+      "json": null
+    },
+    "response": {
+      "status_code": 302,
+      "reason": "",
+      "headers": {
+        "Location": "/bank/main.jsp"
+      },
+      "content_type": "",
+      "declared_length": null,
+      "actual_length": 0,
+      "elapsed_seconds": 1.1920928955078125e-06,
+      "redirect_chain": [
+        "/bank/main.jsp"
+      ],
+      "session_cookies_after": {},
+      "set_cookie_header": null,
+      "final_body": ""
+    },
+    "analysis": {
+      "status_behavior": null,
+      "cookie_delta": {
+        "new": {},
+        "changed": {},
+        "removed": []
+      },
+      "redirect_target": "/bank/main.jsp",
+      "similarity": 0.0,
+      "length_delta": -45,
+      "sql_error_found": false,
+      "sql_error_snippet": null,
+      "reflection_context": null,
+      "encoding_behavior": "raw",
+      "template_delta": 0.0,
+      "time_probe": null,
+      "csrf_behavior": null,
+      "csrf_bypass": false,
+      "content_type_mismatch": false,
+      "jwt_tampering_accepted": false,
+      "jwt_tamper_variants_tested": [],
+      "jwt_tamper_accepted_variant": null,
+      "cache_control_ok": false,
+      "suspicious": true,
+      "severity": "MEDIUM"
+    },
+    "reflection": {},
+    "similarity": 0.0,
+    "success_keywords": [],
+    "final_status": 302,
+    "skipped_by_policy": false
+  },
+  {
+    "vector_id": "v1",
+    "payload": "' OR '1'='1",
+    "sink": "header",
+    "request": {
+      "url": "http://example.local/doLogin",
+      "method": "POST",
+      "headers": {
+        "X-Forwarded-For": "' OR '1'='1"
+      },
+      "data": {
+        "uid": "",
+        "passw": "",
+        "btnSubmit": "Login"
+      },
+      "json": null
+    },
+    "response": {
+      "status_code": 302,
+      "reason": "",
+      "headers": {
+        "Location": "/bank/main.jsp"
+      },
+      "content_type": "",
+      "declared_length": null,
+      "actual_length": 0,
+      "elapsed_seconds": 1.1920928955078125e-06,
+      "redirect_chain": [
+        "/bank/main.jsp"
+      ],
+      "session_cookies_after": {},
+      "set_cookie_header": null,
+      "final_body": ""
+    },
+    "analysis": {
+      "status_behavior": null,
+      "cookie_delta": {
+        "new": {},
+        "changed": {},
+        "removed": []
+      },
+      "redirect_target": "/bank/main.jsp",
+      "similarity": 0.0,
+      "length_delta": -45,
+      "sql_error_found": false,
+      "sql_error_snippet": null,
+      "reflection_context": null,
+      "encoding_behavior": "raw",
+      "template_delta": 0.0,
+      "time_probe": null,
+      "csrf_behavior": null,
+      "csrf_bypass": false,
+      "content_type_mismatch": false,
+      "jwt_tampering_accepted": false,
+      "jwt_tamper_variants_tested": [],
+      "jwt_tamper_accepted_variant": null,
+      "cache_control_ok": false,
+      "suspicious": true,
+      "severity": "MEDIUM"
+    },
+    "reflection": {},
+    "similarity": 0.0,
+    "success_keywords": [],
+    "final_status": 302,
+    "skipped_by_policy": false
+  },
+  {
+    "vector_id": "v1",
+    "payload": "' OR '1'='1",
+    "sink": "referer",
+    "request": {
+      "url": "http://example.local/doLogin",
+      "method": "POST",
+      "headers": {
+        "Referer": "' OR '1'='1"
+      },
+      "data": {
+        "uid": "",
+        "passw": "",
+        "btnSubmit": "Login"
+      },
+      "json": null
+    },
+    "response": {
+      "status_code": 302,
+      "reason": "",
+      "headers": {
+        "Location": "/bank/main.jsp"
+      },
+      "content_type": "",
+      "declared_length": null,
+      "actual_length": 0,
+      "elapsed_seconds": 9.5367431640625e-07,
+      "redirect_chain": [
+        "/bank/main.jsp"
+      ],
+      "session_cookies_after": {},
+      "set_cookie_header": null,
+      "final_body": ""
+    },
+    "analysis": {
+      "status_behavior": null,
+      "cookie_delta": {
+        "new": {},
+        "changed": {},
+        "removed": []
+      },
+      "redirect_target": "/bank/main.jsp",
+      "similarity": 0.0,
+      "length_delta": -45,
+      "sql_error_found": false,
+      "sql_error_snippet": null,
+      "reflection_context": null,
+      "encoding_behavior": "raw",
+      "template_delta": 0.0,
+      "time_probe": null,
+      "csrf_behavior": null,
+      "csrf_bypass": false,
+      "content_type_mismatch": false,
+      "jwt_tampering_accepted": false,
+      "jwt_tamper_variants_tested": [],
+      "jwt_tamper_accepted_variant": null,
+      "cache_control_ok": false,
+      "suspicious": true,
+      "severity": "MEDIUM"
+    },
+    "reflection": {},
+    "similarity": 0.0,
+    "success_keywords": [],
+    "final_status": 302,
+    "skipped_by_policy": false
+  },
+  {
+    "vector_id": "v1",
+    "payload": "' OR '1'='1",
+    "sink": "user-agent",
+    "request": {
+      "url": "http://example.local/doLogin",
+      "method": "POST",
+      "headers": {
+        "User-Agent": "' OR '1'='1"
+      },
+      "data": {
+        "uid": "",
+        "passw": "",
+        "btnSubmit": "Login"
+      },
+      "json": null
+    },
+    "response": {
+      "status_code": 302,
+      "reason": "",
+      "headers": {
+        "Location": "/bank/main.jsp"
+      },
+      "content_type": "",
+      "declared_length": null,
+      "actual_length": 0,
+      "elapsed_seconds": 2.1457672119140625e-06,
+      "redirect_chain": [
+        "/bank/main.jsp"
+      ],
+      "session_cookies_after": {},
+      "set_cookie_header": null,
+      "final_body": ""
+    },
+    "analysis": {
+      "status_behavior": null,
+      "cookie_delta": {
+        "new": {},
+        "changed": {},
+        "removed": []
+      },
+      "redirect_target": "/bank/main.jsp",
+      "similarity": 0.0,
+      "length_delta": -45,
+      "sql_error_found": false,
+      "sql_error_snippet": null,
+      "reflection_context": null,
+      "encoding_behavior": "raw",
+      "template_delta": 0.0,
+      "time_probe": null,
+      "csrf_behavior": null,
+      "csrf_bypass": false,
+      "content_type_mismatch": false,
+      "jwt_tampering_accepted": false,
+      "jwt_tamper_variants_tested": [],
+      "jwt_tamper_accepted_variant": null,
+      "cache_control_ok": false,
+      "suspicious": true,
+      "severity": "MEDIUM"
+    },
+    "reflection": {},
+    "similarity": 0.0,
+    "success_keywords": [],
+    "final_status": 302,
+    "skipped_by_policy": false
+  },
+  {
+    "vector_id": "v1",
+    "payload": "' OR '1'='1",
+    "sink": "json",
+    "request": {
+      "url": "http://example.local/doLogin",
+      "method": "POST",
+      "headers": {},
+      "data": null,
+      "json": {
+        "uid": "' OR '1'='1",
+        "passw": "test"
+      }
+    },
+    "response": {
+      "status_code": 302,
+      "reason": "",
+      "headers": {
+        "Location": "/bank/main.jsp"
+      },
+      "content_type": "",
+      "declared_length": null,
+      "actual_length": 0,
+      "elapsed_seconds": 2.86102294921875e-06,
+      "redirect_chain": [
+        "/bank/main.jsp"
+      ],
+      "session_cookies_after": {},
+      "set_cookie_header": null,
+      "final_body": ""
+    },
+    "analysis": {
+      "status_behavior": null,
+      "cookie_delta": {
+        "new": {},
+        "changed": {},
+        "removed": []
+      },
+      "redirect_target": "/bank/main.jsp",
+      "similarity": 0.0,
+      "length_delta": -45,
+      "sql_error_found": false,
+      "sql_error_snippet": null,
+      "reflection_context": null,
+      "encoding_behavior": "raw",
+      "template_delta": 0.0,
+      "time_probe": null,
+      "csrf_behavior": null,
+      "csrf_bypass": false,
+      "content_type_mismatch": false,
+      "jwt_tampering_accepted": false,
+      "jwt_tamper_variants_tested": [],
+      "jwt_tamper_accepted_variant": null,
+      "cache_control_ok": false,
+      "suspicious": true,
+      "severity": "MEDIUM"
+    },
+    "reflection": {},
+    "similarity": 0.0,
+    "success_keywords": [],
+    "final_status": 302,
+    "skipped_by_policy": false
+  },
+  {
+    "vector_id": "v1",
+    "payload": "' OR '1'='1",
+    "sink": "query",
+    "request": {
+      "url": "http://example.local/doLogin?q='%20OR%20'1'='1",
+      "method": "POST",
+      "headers": {},
+      "data": {
+        "uid": "",
+        "passw": "",
+        "btnSubmit": "Login"
+      },
+      "json": null
+    },
+    "response": {
+      "status_code": 302,
+      "reason": "",
+      "headers": {
+        "Location": "/bank/main.jsp"
+      },
+      "content_type": "",
+      "declared_length": null,
+      "actual_length": 0,
+      "elapsed_seconds": 1.1920928955078125e-06,
+      "redirect_chain": [
+        "/bank/main.jsp"
+      ],
+      "session_cookies_after": {},
+      "set_cookie_header": null,
+      "final_body": ""
+    },
+    "analysis": {
+      "status_behavior": null,
+      "cookie_delta": {
+        "new": {},
+        "changed": {},
+        "removed": []
+      },
+      "redirect_target": "/bank/main.jsp",
+      "similarity": 0.0,
+      "length_delta": -45,
+      "sql_error_found": false,
+      "sql_error_snippet": null,
+      "reflection_context": null,
+      "encoding_behavior": "raw",
+      "template_delta": 0.0,
+      "time_probe": null,
+      "csrf_behavior": null,
+      "csrf_bypass": false,
+      "content_type_mismatch": false,
+      "jwt_tampering_accepted": false,
+      "jwt_tamper_variants_tested": [],
+      "jwt_tamper_accepted_variant": null,
+      "cache_control_ok": false,
+      "suspicious": true,
+      "severity": "MEDIUM"
+    },
+    "reflection": {},
+    "similarity": 0.0,
+    "success_keywords": [],
+    "final_status": 302,
+    "skipped_by_policy": false
+  }
+]
