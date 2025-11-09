@@ -7,8 +7,8 @@ Total Coverage:
 - Injection Attacks: 130 vectors (SQL, XSS, SSRF, XXE, Deserialization, XPath, XSLT, CRLF, Prototype Pollution, EL, SSTI, NoSQL, LDAP, Command)
 - API Security: 58 vectors (GraphQL, Schema, Rate Limit, REST, WebSocket, Cache Poisoning, HPP)
 - Business Logic: 44 vectors
-- OWASP Top 10: 37 vectors (CSRF, Open Redirect, Security Headers, Misconfiguration)
-- TOTAL VECTORS: 336 vectors
+- OWASP Top 10: 39 vectors (CSRF, Open Redirect, Security Headers, Misconfiguration, Supply Chain, Exceptional Conditions)
+- TOTAL VECTORS: 339 vectors
 
 COMPREHENSIVE OWASP TOP 10 + EXTENDED COVERAGE ACHIEVED
 """
@@ -62,7 +62,9 @@ from .owasp import (
     SECURITY_HEADER_VECTORS,
     MISCONFIGURATION_VECTORS,
     CSRF_VECTORS,
-    OPEN_REDIRECT_VECTORS
+    OPEN_REDIRECT_VECTORS,
+    SUPPLY_CHAIN_FAILURE_VECTORS,
+    EXCEPTIONAL_CONDITIONS_VECTORS
 )
 
 
@@ -113,11 +115,13 @@ class TestVectorRegistry:
         self._register_collection(FINANCIAL_TEST_VECTORS, "Financial Logic")
         self._register_collection(FILE_UPLOAD_BYPASS_VECTORS, "File Upload Bypass")
         
-        # OWASP Top 10 (37 vectors)
+        # OWASP Top 10 (add new 2025 categories)
         self._register_collection(CSRF_VECTORS, "Cross-Site Request Forgery")
         self._register_collection(OPEN_REDIRECT_VECTORS, "Open Redirect")
         self._register_collection(SECURITY_HEADER_VECTORS, "Security Headers")
         self._register_collection(MISCONFIGURATION_VECTORS, "Security Misconfiguration")
+        self._register_collection(SUPPLY_CHAIN_FAILURE_VECTORS, "Software Supply Chain Failures")
+        self._register_collection(EXCEPTIONAL_CONDITIONS_VECTORS, "Mishandling of Exceptional Conditions")
     
     def _register_collection(self, vectors: List[TestVector], category: str):
         """Register a collection of test vectors"""
@@ -165,6 +169,8 @@ class TestVectorRegistry:
             "file_upload_vectors": len(FILE_UPLOAD_BYPASS_VECTORS),
             "security_header_vectors": len(SECURITY_HEADER_VECTORS),
             "misconfiguration_vectors": len(MISCONFIGURATION_VECTORS),
+            "supply_chain_failure_vectors": len(SUPPLY_CHAIN_FAILURE_VECTORS),
+            "exceptional_conditions_vectors": len(EXCEPTIONAL_CONDITIONS_VECTORS),
         }
 
 
@@ -236,7 +242,9 @@ def print_registry_stats():
     print("\n🛡️ OWASP TOP 10:")
     print(f"   • Security Headers:      {stats['security_header_vectors']} vectors")
     print(f"   • Misconfiguration:      {stats['misconfiguration_vectors']} vectors")
-    print(f"   SUBTOTAL: {stats['security_header_vectors'] + stats['misconfiguration_vectors']} vectors")
+    print(f"   • Supply Chain Failures: {stats['supply_chain_failure_vectors']} vectors")
+    print(f"   • Exceptional Conditions: {stats['exceptional_conditions_vectors']} vectors")
+    print(f"   SUBTOTAL: {stats['security_header_vectors'] + stats['misconfiguration_vectors'] + stats['supply_chain_failure_vectors'] + stats['exceptional_conditions_vectors']} vectors")
     
     print("\n" + "="*60)
     print("✅ All test vectors successfully registered!")

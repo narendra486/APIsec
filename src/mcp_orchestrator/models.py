@@ -198,6 +198,8 @@ class VulnerabilityType(str, Enum):
     EL_INJECTION = "el-injection"
     CACHE_POISONING = "cache-poisoning"
     HPP = "hpp"
+    SOFTWARE_SUPPLY_CHAIN_FAILURES = "software-supply-chain-failures"
+    MISHANDLING_OF_EXCEPTIONAL_CONDITIONS = "mishandling-of-exceptional-conditions"
 
 
 class EncodingType(str, Enum):

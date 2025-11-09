@@ -1,3 +1,16 @@
+# Analyzer usage (snippet)
+
+This project includes a small analyzer tool to run test vectors against login endpoints and collect structured findings.
+
+Important: By default the analyzer will skip requests to demo.testfire.net. The skip rule is enforced in code: if the Analyzer is constructed with a base URL whose host appears in the --skip-hosts list (default contains 'demo.testfire.net'), the analyzer will not send any network traffic and will return a 'skipped_by_policy' result.
+
+Quick example (CLI):
+
+```
+python3 scripts/run_analyzer.py --url http://example.local/doLogin --vectors-file vectors.json --concurrency 2
+```
+
+If you need to override the skip list, pass --skip-hosts with a comma-separated list. Note: demo.testfire.net is included by default to avoid accidental scanning of the demo host.
 # MCP-Orchestrator
 
 **Modular, adaptive API & web-application security testing server with behavior analysis**
