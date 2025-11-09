@@ -36,3 +36,66 @@ jobs:
         with:
           name: tests-log
           path: tests.log
+
+  ruff:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install ruff
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ruff
+
+      - name: Run ruff
+        run: |
+          ruff check .
+
+  black-check:
+    name: Format check (black)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install black
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install black
+
+      - name: Black format check
+        run: |
+          black --check .
+
+  mypy:
+    name: Type check (mypy)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install mypy
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install mypy
+
+      - name: Run mypy
+        run: |
+          mypy src tests || true
